@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A2F82AC238ECA42008CCFAD /* BookListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F82A5238ECA42008CCFAD /* BookListPresenter.swift */; };
+		9A2F82AE238ECA42008CCFAD /* BookListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F82A7238ECA42008CCFAD /* BookListRouter.swift */; };
+		9A2F82AF238ECA42008CCFAD /* BookListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F82A8238ECA42008CCFAD /* BookListModels.swift */; };
+		9A2F82B0238ECA42008CCFAD /* BookListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F82A9238ECA42008CCFAD /* BookListViewController.swift */; };
+		9A2F82B1238ECA42008CCFAD /* BookListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F82AA238ECA42008CCFAD /* BookListInteractor.swift */; };
+		9A2F82BA238ED46E008CCFAD /* ServiceDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F82B9238ED46E008CCFAD /* ServiceDataProvider.swift */; };
+		9A2F82BF238EE071008CCFAD /* BookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2F82BD238EE071008CCFAD /* BookTableViewCell.swift */; };
+		9A2F82C0238EE071008CCFAD /* BookTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A2F82BE238EE071008CCFAD /* BookTableViewCell.xib */; };
 		9AD87431238EC84000BC411C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD87430238EC84000BC411C /* AppDelegate.swift */; };
 		9AD87433238EC84000BC411C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD87432238EC84000BC411C /* SceneDelegate.swift */; };
 		9AD87435238EC84000BC411C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD87434238EC84000BC411C /* ViewController.swift */; };
@@ -35,6 +43,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9A2F82A5238ECA42008CCFAD /* BookListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListPresenter.swift; sourceTree = "<group>"; };
+		9A2F82A7238ECA42008CCFAD /* BookListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListRouter.swift; sourceTree = "<group>"; };
+		9A2F82A8238ECA42008CCFAD /* BookListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListModels.swift; sourceTree = "<group>"; };
+		9A2F82A9238ECA42008CCFAD /* BookListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListViewController.swift; sourceTree = "<group>"; };
+		9A2F82AA238ECA42008CCFAD /* BookListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookListInteractor.swift; sourceTree = "<group>"; };
+		9A2F82B9238ED46E008CCFAD /* ServiceDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceDataProvider.swift; sourceTree = "<group>"; };
+		9A2F82BD238EE071008CCFAD /* BookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTableViewCell.swift; sourceTree = "<group>"; };
+		9A2F82BE238EE071008CCFAD /* BookTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookTableViewCell.xib; sourceTree = "<group>"; };
 		9AD8742D238EC84000BC411C /* Possible.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Possible.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD87430238EC84000BC411C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9AD87432238EC84000BC411C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +92,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A2F82B2238ECC1F008CCFAD /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				9A2F82BD238EE071008CCFAD /* BookTableViewCell.swift */,
+				9A2F82BE238EE071008CCFAD /* BookTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		9A2F82B7238ECC22008CCFAD /* BookList */ = {
+			isa = PBXGroup;
+			children = (
+				9A2F82A5238ECA42008CCFAD /* BookListPresenter.swift */,
+				9A2F82A7238ECA42008CCFAD /* BookListRouter.swift */,
+				9A2F82A8238ECA42008CCFAD /* BookListModels.swift */,
+				9A2F82A9238ECA42008CCFAD /* BookListViewController.swift */,
+				9A2F82AA238ECA42008CCFAD /* BookListInteractor.swift */,
+				9A2F82B2238ECC1F008CCFAD /* Cell */,
+			);
+			path = BookList;
+			sourceTree = "<group>";
+		};
+		9A2F82B8238ED45C008CCFAD /* DataProvider */ = {
+			isa = PBXGroup;
+			children = (
+				9A2F82B9238ED46E008CCFAD /* ServiceDataProvider.swift */,
+			);
+			path = DataProvider;
+			sourceTree = "<group>";
+		};
 		9AD87424238EC83F00BC411C = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +145,8 @@
 		9AD8742F238EC84000BC411C /* Possible */ = {
 			isa = PBXGroup;
 			children = (
+				9A2F82B8238ED45C008CCFAD /* DataProvider */,
+				9AD87460238EC8C500BC411C /* Scenes */,
 				9AD87430238EC84000BC411C /* AppDelegate.swift */,
 				9AD87432238EC84000BC411C /* SceneDelegate.swift */,
 				9AD87434238EC84000BC411C /* ViewController.swift */,
@@ -126,6 +174,14 @@
 				9AD87454238EC84000BC411C /* Info.plist */,
 			);
 			path = PossibleUITests;
+			sourceTree = "<group>";
+		};
+		9AD87460238EC8C500BC411C /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				9A2F82B7238ECC22008CCFAD /* BookList */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A2F82C0238EE071008CCFAD /* BookTableViewCell.xib in Resources */,
 				9AD8743D238EC84000BC411C /* LaunchScreen.storyboard in Resources */,
 				9AD8743A238EC84000BC411C /* Assets.xcassets in Resources */,
 				9AD87438238EC84000BC411C /* Main.storyboard in Resources */,
@@ -260,7 +317,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AD87435238EC84000BC411C /* ViewController.swift in Sources */,
+				9A2F82B0238ECA42008CCFAD /* BookListViewController.swift in Sources */,
+				9A2F82BF238EE071008CCFAD /* BookTableViewCell.swift in Sources */,
+				9A2F82B1238ECA42008CCFAD /* BookListInteractor.swift in Sources */,
+				9A2F82AF238ECA42008CCFAD /* BookListModels.swift in Sources */,
+				9A2F82AC238ECA42008CCFAD /* BookListPresenter.swift in Sources */,
+				9A2F82BA238ED46E008CCFAD /* ServiceDataProvider.swift in Sources */,
 				9AD87431238EC84000BC411C /* AppDelegate.swift in Sources */,
+				9A2F82AE238ECA42008CCFAD /* BookListRouter.swift in Sources */,
 				9AD87433238EC84000BC411C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

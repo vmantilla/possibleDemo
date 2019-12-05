@@ -8,9 +8,26 @@
 
 import UIKit
 
+protocol ListBookDisplayLogic: class
+{
+    func displayFetchedBooks(viewModel: BookList.FetchBooks.ViewModel)
+    func displayError(_ error: ServiceError?)
+}
+
+struct Constant
+{
+    static let tableViewReuseIdentifier = "BookTableViewCell"
+}
+
 class BookListViewController: UIViewController
 {
     private var presenter: BookListPresenterProtocol
+    var displayedBooks: [BookList.FetchBooks.ViewModel.DisplayedBook] = []
+    @IBOutlet weak var tableView: UITableView! = {
+        let tv = UITableView()
+        tv.backgroundColor = UIColor.white
+        return tv
+    }()
     
     // MARK: Object Initializers
     init(presenter: BookListPresenterProtocol)
@@ -21,7 +38,7 @@ class BookListViewController: UIViewController
     
     required init?(coder aDecoder: NSCoder)
     {
-        self.presenter = BookListPresenter(interactor: BookListInteractor(), router: BookListRouter(navigationController: self.navigationController))
+        self.presenter = BookListPresenter(interactor: BookListInteractor(), router: BookListRouter(navigationController: UINavigationController()))
         super.init(coder: aDecoder)
     }
     
@@ -29,6 +46,8 @@ class BookListViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        setupTableView()
+        self.presenter.delegate = self
         fetchBooks()
     }
     
@@ -40,56 +59,52 @@ class BookListViewController: UIViewController
         presenter.fetchBooks(request: request)
     }
     
-    func showData() {
-        
+    func setupTableView() {
+        tableView.register(UINib(nibName: Constant.tableViewReuseIdentifier, bundle: nil), forCellReuseIdentifier: Constant.tableViewReuseIdentifier)
+    }
+}
+
+// MARK: - ListBookDisplayLogic Delegates implementation
+extension BookListViewController: ListBookDisplayLogic {
+    
+    func displayFetchedBooks(viewModel: BookList.FetchBooks.ViewModel) {
+        self.displayedBooks = viewModel.displayedBooks
+        self.tableView.reloadData()
     }
     
-    func showError(error: String) {
-        
+    func displayError(_ error: ServiceError?) {
+        // TODO
     }
 }
 
 // MARK: - UICollectionViewController Delegates implementation
-
-extension BookListViewController: UICollectionViewDelegate, UICollectionViewDataSource
+extension BookListViewController: UITableViewDelegate, UITableViewDataSource
 {
-    struct Constant
-    {
-        static let collectionItemReuseIdentifier = "MovieCollectionViewItem"
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return displayedBooks.count
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return displayedMovies.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let displayedMovie = displayedMovies[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.collectionItemReuseIdentifier, for: indexPath) as! MovieCollectionViewCell
-        cell.setup(withViewModel: displayedMovie)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let displayedBook = displayedBooks[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constant.tableViewReuseIdentifier, for: indexPath) as! BookTableViewCell
+        cell.setupBook(with: displayedBook)
         return cell
     }
-}
-extension BookListViewController
-{
-    @IBAction func didSelectButton(sender: UIButton?)
-    {
-        self.handleAction(.button1Selected)
-    }
     
-    func handleAction(_ action: BookListViewControllerAction)
-    {
-        switch action
-        {
-        case .button1Selected:
-            print("Selected Button 1")
-            presenter.handleAction(.goToDetails)
-        case .button2Selected:
-            print("Selected Button 2")
-            presenter.handleAction(.showMessage)
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let displayedBook = displayedBooks[indexPath.row]
+        var height: CGFloat = 0
+        let title = displayedBook.title
+            let font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.light)
+            let size = CGSize(width: tableView.frame.width - 100, height: 1000)
+            let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+            let estimatedFrame =  NSString(string: title).boundingRect(
+                with: size,
+                options: options,
+                attributes: [NSAttributedString.Key.font: font],
+                context: nil)
+        height = max(estimatedFrame.height + 40, 120)
+        return height
     }
 }

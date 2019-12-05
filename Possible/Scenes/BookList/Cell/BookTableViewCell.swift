@@ -20,26 +20,28 @@ class BookTableViewCell: UITableViewCell {
     }
     override func prepareForReuse() {
         super.prepareForReuse()
-        //imageView.image = nil
+        poster.image = nil
     }
     
     func setupBook(with book: BookList.FetchBooks.ViewModel.DisplayedBook) {
         self.title.text = book.title
-        //self.autor.text = book.author
+        self.autor.text = book.author
+        guard let url = URL(string: book.imageURL) else {
+            return
+        }
+        downloadImage(from: url)
     }
     
-    private func showData(viewModel: BookList.FetchBooks.ViewModel.DisplayedBook) {
-        //let placeholderImage = UIImage(named: "defaultMovie")!
-//        let posterUrl = ImagePath.poster_path_original.rawValue + viewModel.poster_path
-//
-//        guard let url = URL(string: posterUrl) else {
-//            poster.image = placeholderImage
-//            return
-//        }
-//
-//        let imageFilter = AspectScaledToFillSizeFilter(size: poster.frame.size)
-//
-//        poster.af_setImage(withURL: url, placeholderImage: placeholderImage, filter: imageFilter, progress: nil, imageTransition: .noTransition, runImageTransitionIfCached: false, completion: { (image) in
-//        })
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    func downloadImage(from url: URL) {
+        getData(from: url) { [weak self] data, response, error in
+            guard let data = data, error == nil else { return }
+            DispatchQueue.main.async() {
+                self?.poster.image = UIImage(data: data)
+            }
+        }
     }
 }

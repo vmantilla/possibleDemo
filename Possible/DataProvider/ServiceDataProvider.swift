@@ -17,7 +17,7 @@ enum ServiceError: Error
 
 struct Contants
 {
-    static let home_path = "http://de-coding-test.s3.amazonaws.com/books.json"
+    static let home_path = "http://de-coding-test.s3.amazonaws.com"
 }
 
 enum BooksPath: String
@@ -25,13 +25,13 @@ enum BooksPath: String
     case books = "/books.json"
 }
 
-final class TheBooksApi
+final class ServiceDataProvider
 {
     var dataTask: URLSessionDataTask?
     
     init() { }
     
-    func fetchMovies(request: BookList.FetchBooks.Request, completionHandler completion: @escaping ([Book], ServiceError?) -> Void) {
+    func fetchBooks(request: BookList.FetchBooks.Request, completionHandler completion: @escaping ([Book], ServiceError?) -> Void) {
         
         // request is not used, it's there just to clarify how params are handled
         
@@ -69,6 +69,8 @@ final class TheBooksApi
                         } catch {
                             completion([], .unknown)
                         }
+                    } else {
+                         completion([], .unknown)
                     }
             }
             dataTask?.resume()

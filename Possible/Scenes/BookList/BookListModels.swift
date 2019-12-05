@@ -13,6 +13,15 @@ enum BookList {
         struct Response {
             var fetchedBooks: [Book]
         }
+        struct ViewModel {
+            struct DisplayedBook
+            {
+                let title: String
+                let author: String
+                let imageURL: String
+            }
+            var displayedBooks: [DisplayedBook]
+        }
     }
 }
 

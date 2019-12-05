@@ -20,9 +20,9 @@ protocol BookListRouterProtocol
 
 class BookListRouter: NSObject, BookListRouterProtocol
 {
-    private var navigationController: UINavigationController
+    private var navigationController: UINavigationController?
     
-    public init(navigationController: UINavigationController)
+    public init(navigationController: UINavigationController?)
     {
         self.navigationController = navigationController
     }
@@ -43,18 +43,11 @@ extension BookListRouter
 {
     func goToNextPage()
     {
-        /*
-         let router = Router(navigationController: self.navigationController)
-         let interactor = Interactor(id: "")
-         let presenter = Presenter(router: interactor, router: router)
-         let viewController = ViewController(presenter: presenter)
-        navigationController.pushViewController(viewController, animated: true)
-        }
-         */
+        // TO DO
     }
     
     func goBack()
     {
-        navigationController.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }

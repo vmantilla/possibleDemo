@@ -1,4 +1,4 @@
-//
+d .//
 //  BookListPresenter.swift
 //  Possible
 //
@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import RxSwift
 
-enum BookListString: String {
-    case loadingError = "Ocurrio un error cargando los datos"
+struct Default
+{
+    static let imageURL = "https://edgeplay.files.wordpress.com/2011/05/classic_red_book_cover_by_semireal_stock.jpg"
+    static let author = "Anonymous"
 }
 
 public enum BookListPresenterAction {
@@ -18,76 +19,49 @@ public enum BookListPresenterAction {
     case showError(_ error: String)
 }
 
-protocol BookListPresenterProtocol
+protocol BookListPresenterProtocol: class
 {
-    var onAction: Observable<BookListPresenterAction> { get }
-    func handleAction(_ action: BookListAction)
     func fetchBooks(request: BookList.FetchBooks.Request)
+    func presentResponse(response: BookListResponse)
+    var delegate: ListBookDisplayLogic? { get set }
 }
 
-class BookListPresenter: BookListPresenterProtocol
+class BookListPresenter
 {
-    private let interactor: BookListInteractorProtocol
+    private var interactor: BookListInteractorProtocol
     private let router: BookListRouterProtocol
-    private let disposeBag = DisposeBag()
-    private let onActionSubject = PublishSubject<BookListPresenterAction>()
+    
+    weak var delegate: ListBookDisplayLogic?
     
     public init(interactor: BookListInteractorProtocol, router: BookListRouterProtocol)
     {
         self.interactor = interactor
         self.router = router
+        self.interactor.delegate = self
     }
 }
 
-// MARK: BookListPresenterProtocol IN Methods
-extension BookListPresenter
+// MARK: BookListPresenterProtocol
+extension BookListPresenter: BookListPresenterProtocol
 {
-    var onAction: Observable<BookListPresenterAction> {
-        return onActionSubject.asObservable()
-    }
-    
     public func fetchBooks(request: BookList.FetchBooks.Request) {
-        interactor
-            .fetchBooks(request: request)
-            .asObservable()
-            .subscribe(
-                onNext: { [weak self] fetchedBooks in
-                    let displayedBooks = fetchedBooks.map {
-                        return Book(id: $0.id, description: $0.description)
-                    }
-                    self?.interactor.updateData(with: displayedBooks)
-                    self?.onActionSubject.onNext(.showData)
-                    
-                }, onError: { [weak self] error in
-                    switch error as! BookListError {
-                    case .loadingError:
-                        self?.onActionSubject.onNext(.showError(BookListString.loadingError.rawValue))
-                    }
-            })
-            .disposed(by: disposeBag)
+        interactor.fetchBooks(request: request)
     }
     
-}
-
-// MARK: BookListPresenter OUT Methods
-extension BookListPresenter
-{
-    var data: [Book]
-    {
-        return interactor.data
-    }
-    
-    func handleAction(_ action: BookListAction)
-    {
-        switch action {
-        case .goToDetails:
-            print("handleTransition(transition: .goToDetails())")
-        case .showMessage:
-            print("show message")
+    func presentResponse(response: BookListResponse) {
+        switch response {
+        case .success(let response):
+            let booksToDisplay = response.fetchedBooks.map { book -> BookList.FetchBooks.ViewModel.DisplayedBook  in
+                let booktoDiplay = BookList.FetchBooks.ViewModel.DisplayedBook(
+                    title: book.title,
+                    author: book.author ?? Default.author,
+                    imageURL: book.imageURL ?? Default.imageURL
+                )
+                return booktoDiplay
+            }
+            self.delegate?.displayFetchedBooks(viewModel:  BookList.FetchBooks.ViewModel(displayedBooks: booksToDisplay))
+        case .failure(let error):
+            self.delegate?.displayError(error)
         }
-    }
-    
-    public func handleTransition(transition: BookListTransition) {
-        router.performTransition(transition: transition)
     }
 }
